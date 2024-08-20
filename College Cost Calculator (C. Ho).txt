@@ -1,0 +1,174 @@
+// Description: This program reviews previous learning outcomes:
+//		customizing the cmp window,
+//		naming constant variables,
+//		printing a centered banner using the WYSIWYG approach,
+//		strings,
+//		using functions and methods that work with cin;
+//		and illustrates Chapter 4 learning outcomes:
+//			if statements,
+//			if else statements,
+//			logical operators, and
+//			conditional operators.
+//		Instruction files: https://bhcc.digication.com/cit120all_master_delta/College_Bill_Calculator and 
+// https://bhcc.digication.com/readfile.digi?localfile=M3a9cc403abd8fcdf5faef7c5e7032199&filename=College+Cost+Calculator+%28H.+Delta%29.exe
+// Title: College Cost Calculator
+// Programmer: C. Ho
+// Last Modified: Mon. Oct. 16, 2023 @ 4:01 PM
+
+// PREPROCESSOR DIRECTIVE SECTION
+#include <iostream>
+#include <string>
+using namespace std;
+
+// FUNCTION DECLARATION SECTION, INCLUDING FUNCTION PROTOTYPES - N/A IN THIS LAB
+
+// MAIN SUB-SECTION
+int main()
+{
+	// SET UP SECTION
+	// System function call to change text in title bar
+	system("title Constant Variables, cin Functions + Methods, if + if ... else Statements, Logical Operators, and Conditional Operators     by C. Ho");
+
+	// System function call to change the color of the cmp window (background, foreground)
+	system("color E1");
+
+	// Centered banner using the WYSIWYG approach
+	cout << "\n"
+		<< "\t\t\t                        College Bill Calculator                      \n"
+		<< "\t\t\t                Make sure you test EVERY possible input.             \n"
+		<< "\t\t\t       Not as easy as it looks - the devil is in the details!        \n"
+		<< "\t\t\t                   Compensate for user's extra input.                \n"
+		<< "\t\t\t Make sure you follow all the learning outcomes of the previous lab. \n"
+		<< "\t\t\t                                Lab #3                               \n"
+		<< "\t\t\t                               by C. Ho                              \n\n";
+
+	// Hints about typing
+	cout << "\n"
+		<< "Hints:\n"
+		<< "  To reduce typing time you can copy and paste my prompts from the exe.\n"
+		<< "  You need to use the WYSIWYG approach in many places!\n";
+
+	// Hints about constant variables
+	cout << "\n"
+		<< "You MUST have and appropriately use the following as const variables:\n"
+		<< "  in-state tuition       $ 3,000\n"
+		<< "  out-of-state tuition   $ 5,000\n"
+		<< "  international tuition  $ 6,700\n"
+		<< "  private room charge    $ 8,000\n"
+		<< "  discount per roommate  $ 1,000.\n";
+
+	// Hints about validation constraints
+	cout << "\n"
+		<< "To make sure you practice more learning outcomes, make sure that\n"
+		<< "  for checking the residency validity, you do NOT use < or <= or >=; and\n"
+		<< "  for checking the housing preference validity, you do NOT use !=.\n\n";
+
+	// VARIABLE DECLARATION SECTION
+	string name;
+	int residencyStatus, housingPreference, numberOfRoommates;
+	double boardDiscount, tuition, board;
+	const int
+		IN_STATE_TUITION = 3'000,
+		OUT_OF_STATE_TUITION = 5'000,
+		INTERNATIONAL_TUITION = 6'700,
+		PRIVATE_ROOM_CHARGE = 8'000,
+		ROOMMATE_DISCOUNT = 1'000;
+
+	// INPUT SECTION
+	// Get the user's name.
+	cout << "Please enter your full name: ";
+	getline(cin, name);									// Allows names with spaces and special characters
+
+	// Prompt the user to enter residency status.
+	cout << "\n"
+		<< "What is your residency status, \"" << name << "\"?\n"
+		<< "  Residency status choices:\n"
+		<< "    1] In state\n"
+		<< "    2] Out of state\n"
+		<< "    3] International\n";
+
+	// Get the user's residency status.
+	cout << "  Enter your choice [1, 2 or 3]: ";
+	cin >> residencyStatus;
+	cin.ignore(1000, '\n');								// Allow residency status to be entered with subsequent inputs.
+
+	// Validate residency choice 
+	if (residencyStatus != 1 && residencyStatus != 2 && residencyStatus != 3)
+	{
+		// Display error message for invalid inputs.
+		cout << "\n	xxx   You entered an illegal residency choice. Program will end now.\n\n";
+
+		// Hold screen so user will see the error message.
+		system("pause");
+		// End program.
+		return(0);
+	}
+
+	// Prompt the user to enter housing preference.
+	cout << "\n"
+		<< "What is your housing preference, \"" << name << "\"?\n"
+		<< "  Housing choices:\n"
+		<< "    1]  Single room dorm\n"
+		<< "    2]  Double room dorm\n"
+		<< "    3]  Triple room dorm\n"
+		<< "    4]  Quad room dorm\n"
+		<< "    5]  Live off campus\n";
+
+	// Get the user's housing preference.
+	cout << "  Enter your choice [1 to 5]: ";
+	cin >> housingPreference;							// Allow housing preference with spaces and special characters
+	cin.ignore(1000, '\n');								// Allow housing preference to be entered with subsequent inputs.
+
+	// Validate housing choice
+	if (housingPreference < 0 || housingPreference > 5)
+	{
+		// Display error message for invalid inputs.
+		cout << "\n   xxx   You entered an illegal housing choice. Program will end now.\n\n";
+
+		// Hold screen so user will see the error message.
+		system("pause");
+		// End program.
+		return(0);
+	};
+
+	// PROCESSING SECTION 
+	// Calculations for residency status and tuition
+	if (residencyStatus == 1)
+		tuition = IN_STATE_TUITION;
+	if (residencyStatus == 2)
+		tuition = OUT_OF_STATE_TUITION;
+	if (residencyStatus == 3)
+		tuition = INTERNATIONAL_TUITION;
+
+	// Calculations for housing preference and number of roommates
+	if (housingPreference != 5)
+	{
+		numberOfRoommates = housingPreference - 1;
+		boardDiscount = numberOfRoommates * ROOMMATE_DISCOUNT;
+		// Notify user of room discount if applicable & use conditional statement to pluralize "roommate"
+		cout << "\n  Your room discount is $ " << boardDiscount << " because you have " << numberOfRoommates << " roommate" << (housingPreference == 2 ? "" : "s") << ".\n";
+	}
+
+	// Calculations for room charge
+	if (housingPreference >= 1 && housingPreference <= 4)
+		board = PRIVATE_ROOM_CHARGE - numberOfRoommates * ROOMMATE_DISCOUNT;
+	else 
+		board = 0;
+
+	// OUTPUT SECTION
+	// Print a line of asterisks to demarcate the bill statement.
+	cout << "\n"
+		<< "          ******************************************\n";
+
+	// Print a statement with user's tuition, board, and total bill.
+	cout << "\n"
+		<< "    Your bill is $ " << tuition << " for tuition and $ " << board << " for room charge.\n"
+		<< "    The total amount you owe is $ " << tuition + board << ".\n\n";
+
+	// CLEAN UP SECTION
+	// Hold screen so user will see the final message.
+	system("pause");
+	// End program.
+	return 0;
+// MAIN ENDS
+}
